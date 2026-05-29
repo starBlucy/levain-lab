@@ -1,122 +1,323 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍞 Levain Lab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍞 Levain Lab</title>
 
-<style>
-body{
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  max-width:600px;
-  margin:40px auto;
-  padding:20px;
-  background:#f7f1e8;
-  color:#3b3028;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.card{
-  background:white;
-  padding:24px;
-  border-radius:16px;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background:
+        radial-gradient(circle at top left, #fff3dc 0, transparent 34%),
+        linear-gradient(135deg, #f7efe4 0%, #efe0cf 100%);
+      color: #3b3028;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-h1{
-  margin-top:0;
-}
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 250, 243, 0.94);
+      border: 1px solid rgba(120, 82, 45, 0.14);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(76, 54, 31, 0.16);
+    }
 
-input{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  margin-bottom:12px;
-  font-size:16px;
-}
+    .badge {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #ead7c1;
+      color: #6a472b;
+      font-size: 13px;
+      font-weight: 700;
+    }
 
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:10px;
-}
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
 
-.result{
-  margin-top:20px;
-  padding:16px;
-  background:#f1e3d1;
-  border-radius:12px;
-}
+    .subtitle {
+      margin: 0 0 26px;
+      color: #7a6757;
+      font-size: 15px;
+      line-height: 1.6;
+    }
 
-.result p{
-  margin:8px 0;
-  font-size:18px;
-}
-</style>
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #dcc8b2;
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px 14px;
+      font-size: 18px;
+      color: #3b3028;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #b98b5d;
+      box-shadow: 0 0 0 4px rgba(185, 139, 93, 0.18);
+    }
+
+    .ratio-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .ratio-field span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #7a6757;
+    }
+
+    .preset-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 13px;
+      background: #ead7c1;
+      color: #5a3c25;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #dec4a8;
+    }
+
+    button.active {
+      background: #7a4f2f;
+      color: #fffaf3;
+    }
+
+    .results {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 22px;
+      background: #f1e3d1;
+      border: 1px solid rgba(120, 82, 45, 0.12);
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(90, 65, 38, 0.13);
+      font-size: 17px;
+    }
+
+    .result-item:first-child {
+      padding-top: 0;
+    }
+
+    .result-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .result-item strong {
+      font-size: 26px;
+      color: #6f4423;
+      letter-spacing: -0.02em;
+    }
+
+    .note {
+      margin: 16px 0 0;
+      font-size: 13px;
+      color: #7a6757;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 430px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+      }
+
+      .card {
+        padding: 22px;
+        border-radius: 24px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .ratio-row {
+        gap: 8px;
+      }
+
+      input {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      .result-item strong {
+        font-size: 23px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <main class="card">
+    <div class="badge">Sourdough starter calculator</div>
 
-<div class="card">
-  <h1>🍞 Levain Lab</h1>
-  <p>르방 스타터 계산기</p>
+    <h1>🍞 Levain Lab</h1>
+    <p class="subtitle">
+      원하는 총량과 비율을 넣으면 스타터, 밀가루, 물의 양을 자동으로 계산해요.
+    </p>
 
-  <label>총량(g)</label>
-  <input id="total" type="number" value="80">
+    <label for="total">만들고 싶은 총량(g)</label>
+    <input id="total" type="number" min="0" step="1" value="80" />
 
-  <label>비율 (스타터 : 밀가루 : 물)</label>
+    <label>비율 <span style="color:#7a6757; font-weight:600;">스타터 : 밀가루 : 물</span></label>
 
-  <div class="row">
-    <input id="starterRatio" type="number" value="2">
-    <input id="flourRatio" type="number" value="1">
-    <input id="waterRatio" type="number" value="1">
-  </div>
+    <div class="ratio-row">
+      <div class="ratio-field">
+        <span>스타터</span>
+        <input id="starterRatio" type="number" min="0" step="0.1" value="2" />
+      </div>
 
-  <div class="result">
-    <p>스타터: <strong id="starterResult">40g</strong></p>
-    <p>밀가루: <strong id="flourResult">20g</strong></p>
-    <p>물: <strong id="waterResult">20g</strong></p>
-  </div>
-</div>
+      <div class="ratio-field">
+        <span>밀가루</span>
+        <input id="flourRatio" type="number" min="0" step="0.1" value="1" />
+      </div>
 
-<script>
+      <div class="ratio-field">
+        <span>물</span>
+        <input id="waterRatio" type="number" min="0" step="0.1" value="1" />
+      </div>
+    </div>
 
-const totalInput = document.getElementById("total");
-const starterRatioInput = document.getElementById("starterRatio");
-const flourRatioInput = document.getElementById("flourRatio");
-const waterRatioInput = document.getElementById("waterRatio");
+    <div class="preset-buttons" aria-label="자주 쓰는 비율">
+      <button type="button" onclick="setRatio(1,1,1, this)">1:1:1</button>
+      <button type="button" onclick="setRatio(1,2,2, this)">1:2:2</button>
+      <button type="button" onclick="setRatio(1,3,3, this)">1:3:3</button>
+      <button type="button" onclick="setRatio(1,5,5, this)">1:5:5</button>
+      <button type="button" onclick="setRatio(2,1,1, this)" class="active">2:1:1</button>
+    </div>
 
-function calculate(){
+    <section class="results" aria-live="polite">
+      <div class="result-item">
+        <span>스타터</span>
+        <strong id="starterResult">40g</strong>
+      </div>
 
-  const total = Number(totalInput.value) || 0;
+      <div class="result-item">
+        <span>밀가루</span>
+        <strong id="flourResult">20g</strong>
+      </div>
 
-  const starterRatio = Number(starterRatioInput.value) || 0;
-  const flourRatio = Number(flourRatioInput.value) || 0;
-  const waterRatio = Number(waterRatioInput.value) || 0;
+      <div class="result-item">
+        <span>물</span>
+        <strong id="waterResult">20g</strong>
+      </div>
+    </section>
 
-  const sum = starterRatio + flourRatio + waterRatio;
+    <p class="note" id="note">
+      예: 총량 80g, 비율 2:1:1이면 스타터 40g, 밀가루 20g, 물 20g입니다.
+    </p>
+  </main>
 
-  if(sum <= 0) return;
+  <script>
+    const totalInput = document.getElementById("total");
+    const starterRatioInput = document.getElementById("starterRatio");
+    const flourRatioInput = document.getElementById("flourRatio");
+    const waterRatioInput = document.getElementById("waterRatio");
 
-  document.getElementById("starterResult").textContent =
-    (total * starterRatio / sum).toFixed(1) + "g";
+    const starterResult = document.getElementById("starterResult");
+    const flourResult = document.getElementById("flourResult");
+    const waterResult = document.getElementById("waterResult");
+    const note = document.getElementById("note");
 
-  document.getElementById("flourResult").textContent =
-    (total * flourRatio / sum).toFixed(1) + "g";
+    const buttons = document.querySelectorAll("button");
 
-  document.getElementById("waterResult").textContent =
-    (total * waterRatio / sum).toFixed(1) + "g";
-}
+    function formatGram(value) {
+      const rounded = Math.round(value * 10) / 10;
+      return Number.isInteger(rounded) ? `${rounded}g` : `${rounded.toFixed(1)}g`;
+    }
 
-[
- totalInput,
- starterRatioInput,
- flourRatioInput,
- waterRatioInput
-].forEach(el => el.addEventListener("input", calculate));
+    function calculate() {
+      const total = Number(totalInput.value) || 0;
+      const starterRatio = Number(starterRatioInput.value) || 0;
+      const flourRatio = Number(flourRatioInput.value) || 0;
+      const waterRatio = Number(waterRatioInput.value) || 0;
 
-calculate();
+      const ratioSum = starterRatio + flourRatio + waterRatio;
 
-</script>
+      if (total <= 0 || ratioSum <= 0) {
+        starterResult.textContent = "0g";
+        flourResult.textContent = "0g";
+        waterResult.textContent = "0g";
+        note.textContent = "총량과 비율을 입력하면 계산 결과가 표시됩니다.";
+        return;
+      }
 
+      const starter = total * starterRatio / ratioSum;
+      const flour = total * flourRatio / ratioSum;
+      const water = total * waterRatio / ratioSum;
+
+      starterResult.textContent = formatGram(starter);
+      flourResult.textContent = formatGram(flour);
+      waterResult.textContent = formatGram(water);
+
+      note.textContent =
+        `총량 ${formatGram(total)}, 비율 ${starterRatio}:${flourRatio}:${waterRatio} → 스타터 ${formatGram(starter)}, 밀가루 ${formatGram(flour)}, 물 ${formatGram(water)}`;
+    }
+
+    function setRatio(starter, flour, water, clickedButton) {
+      starterRatioInput.value = starter;
+      flourRatioInput.value = flour;
+      waterRatioInput.value = water;
+
+      buttons.forEach(button => button.classList.remove("active"));
+      clickedButton.classList.add("active");
+
+      calculate();
+    }
+
+    [totalInput, starterRatioInput, flourRatioInput, waterRatioInput].forEach(input => {
+      input.addEventListener("input", () => {
+        buttons.forEach(button => button.classList.remove("active"));
+        calculate();
+      });
+    });
+
+    calculate();
+  </script>
 </body>
 </html>
