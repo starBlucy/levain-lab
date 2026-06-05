@@ -622,6 +622,30 @@
 
       saveTimeline();
       
+
+      renderTimeline();
+    }
+
+    function recalculateFrom(index) {
+      
+      const actualDone = new Date();
+
+      timeline[index].checked = true;
+      timeline[index].actualDoneTime = actualDone;
+
+      let nextStart = actualDone;
+
+      for (let i = index + 1; i < timeline.length; i++) {
+        timeline[i].startTime = new Date(nextStart);
+        timeline[i].checked = false;
+        timeline[i].actualDoneTime = null;
+        nextStart = addMinutes(nextStart, timeline[i].duration);
+      }
+
+      saveTimeline();
+      renderTimeline();
+    }
+    
 function renderCurrentStep() {
   const currentStep = timeline.find(step => !step.checked);
 
@@ -661,32 +685,7 @@ function renderCurrentStep() {
     </div>
   `;
 }
-      renderTimeline();
-    }
-
-    function recalculateFrom(index) {
-      
-      const actualDone = new Date();
-
-      timeline[index].checked = true;
-      timeline[index].actualDoneTime = actualDone;
-
-      let nextStart = actualDone;
-
-      for (let i = index + 1; i < timeline.length; i++) {
-        timeline[i].startTime = new Date(nextStart);
-        timeline[i].checked = false;
-        timeline[i].actualDoneTime = null;
-        nextStart = addMinutes(nextStart, timeline[i].duration);
-      }
-
-      saveTimeline();
-      renderTimeline();
-    }
-    
-
     function renderTimeline() {
-      
       renderCurrentStep();
       
       timelineList.innerHTML = "";
