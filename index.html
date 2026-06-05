@@ -224,8 +224,7 @@
     }
 
     .done {
-      opacity: 0.55;
-      text-decoration: line-through;
+      opacity: 0.75;
     }
 
     @media (max-width: 430px) {
@@ -708,7 +707,8 @@ function renderCurrentStep() {
           <div class="${step.checked ? "done" : ""}">
             <div class="step-time">${formatTime(step.startTime)}</div>
             <div class="step-name">
-            ${step.name}
+              ${step.checked ? "✔ " : ""}
+              ${step.name}
             <button type="button" class="info-btn" onclick="alert('${step.detail}')">ⓘ</button>
             </div>
             <div class="step-memo">
