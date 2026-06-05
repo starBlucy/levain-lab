@@ -365,8 +365,11 @@
         각 단계를 체크하면 실제 완료 시간을 기준으로 이후 일정이 자동 조정됩니다.
       </p>
 
-      <label for="finishTime">빵 완성 시간</label>
-      <input id="finishTime" type="datetime-local" step="600" />
+      <label for="finishDate">빵 완성 날짜</label>
+      <input id="finishDate" type="date" />
+
+      <label for="finishHour">빵 완성 시간</label>
+      <select id="finishHour"></select>
 
       <button class="primary-btn" type="button" onclick="generateTimeline()">타임라인 만들기</button>
 
@@ -576,7 +579,20 @@
 
     let timeline = [];
 
-    const finishInput = document.getElementById("finishTime");
+    const finishDateInput = document.getElementById("finishDate");
+    const finishHourInput = document.getElementById("finishHour");
+
+    for (let hour = 0; hour < 24; hour++) {
+     ["00", "30"].forEach(minute => {
+       const option = document.createElement("option");
+       const value = `${String(hour).padStart(2, "0")}:${minute}`;
+
+       option.value = value;
+       option.textContent = value;
+
+      finishHourInput.appendChild(option);
+    });
+ }
     const timelineList = document.getElementById("timelineList");
     const currentStepCard = document.getElementById("currentStepCard");
 
