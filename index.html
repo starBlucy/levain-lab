@@ -207,18 +207,20 @@
     .step-time {
       font-weight: 900;
       color: #6f4423;
+      font-size: 18px;
     }
 
     .step-name {
       margin-top: 2px;
       font-weight: 800;
+      font-size: 17px;
     }
 
     .step-memo {
-      margin-top: 3px;
-      font-size: 13px;
+      margin-top: 4px;
+      font-size: 14px;
       color: #7a6757;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .done {
@@ -241,6 +243,16 @@
       input { font-size: 16px; padding: 12px; }
       .result-item strong { font-size: 23px; }
     }
+
+    .info-btn {
+  width: auto;
+  padding: 2px 6px;
+  margin-left: 4px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: #ead7c1;
+  color: #6f4423;
+}
   </style>
 </head>
 
@@ -412,38 +424,131 @@
     calculate();
 
     const recipe = [
-      { section: "🧪 르방", name: "르방 준비", duration: 360, memo: "예상 6시간" },
+  {
+    section: "🧪 르방",
+    name: "르방 준비",
+    duration: 360,
+    memo: "예상 6시간",
+    detail: "르방이 충분히 부풀고 기포가 살아 있을 때 사용해요."
+  },
 
-      { section: "🥣 반죽", name: "오토리즈", duration: 40, memo: "재료 섞기 후 40분 휴지" },
-      { section: "🥣 반죽", name: "스트레치 앤 폴딩", duration: 40, memo: "다음 단계까지 40분" },
-      { section: "🥣 반죽", name: "라미네이션", duration: 40, memo: "다음 단계까지 40분" },
-      { section: "🥣 반죽", name: "코일 폴딩 #1", duration: 40, memo: "다음 단계까지 40분" },
-      { section: "🥣 반죽", name: "코일 폴딩 #2", duration: 40, memo: "다음 단계까지 40분" },
+  {
+    section: "🥣 반죽",
+    name: "모든 재료 섞기",
+    duration: 10,
+    memo: "작업 시간 약 10분",
+    detail: "밀가루, 물, 르방, 소금을 한 덩어리로 섞어주세요."
+  },
+  {
+    section: "🥣 반죽",
+    name: "오토리즈",
+    duration: 40,
+    memo: "40분 휴지",
+    detail: "반죽을 쉬게 하여 수분이 고르게 스며들고 글루텐이 자연스럽게 형성되도록 해요."
+  },
+  {
+    section: "🥣 반죽",
+    name: "스트레치 앤 폴딩",
+    duration: 40,
+    memo: "다음 단계까지 40분",
+    detail: "반죽을 늘려 접어 글루텐을 강화하는 과정이에요."
+  },
+  {
+    section: "🥣 반죽",
+    name: "라미네이션",
+    duration: 40,
+    memo: "다음 단계까지 40분",
+    detail: "반죽을 넓게 펼친 뒤 접어 구조를 정리해요."
+  },
+  {
+    section: "🥣 반죽",
+    name: "코일 폴딩 #1",
+    duration: 40,
+    memo: "다음 단계까지 40분",
+    detail: "반죽을 들어올려 자연스럽게 말아 접어주세요."
+  },
+  {
+    section: "🥣 반죽",
+    name: "코일 폴딩 #2",
+    duration: 40,
+    memo: "다음 단계까지 40분",
+    detail: "반죽의 탄성과 볼륨을 한 번 더 정리해요."
+  },
 
-      { section: "🧺 성형", name: "사전 성형", duration: 10, memo: "작업 시간 약 10분" },
-      { section: "🧺 성형", name: "벤치 레스트", duration: 20, memo: "20분 휴지" },
-      { section: "🧺 성형", name: "최종 성형", duration: 10, memo: "반느통에 넣기" },
+  {
+    section: "🧺 성형",
+    name: "사전 성형",
+    duration: 10,
+    memo: "작업 시간 약 10분",
+    detail: "반죽을 둥글게 정리해 최종 성형하기 좋은 상태로 만들어요."
+  },
+  {
+    section: "🧺 성형",
+    name: "벤치 레스트",
+    duration: 20,
+    memo: "20분 휴지",
+    detail: "사전 성형한 반죽을 잠시 쉬게 해요."
+  },
+  {
+    section: "🧺 성형",
+    name: "최종 성형",
+    duration: 10,
+    memo: "반느통에 넣기",
+    detail: "반죽을 최종 모양으로 잡아 반느통에 넣어요."
+  },
 
-      { section: "❄️ 숙성", name: "저온숙성", duration: 960, memo: "냉장 16시간" },
+  {
+    section: "❄️ 숙성",
+    name: "저온숙성",
+    duration: 960,
+    memo: "냉장 16시간",
+    detail: "냉장고에서 천천히 발효하며 풍미를 쌓는 시간이에요."
+  },
 
-      { section: "🔥 굽기", name: "오븐/냄비 예열", duration: 10, memo: "230℃ 예열" },
-      { section: "🔥 굽기", name: "베이킹", duration: 35, memo: "230℃ 20분 + 200℃ 10~15분" }
-    ];
+  {
+    section: "🔥 굽기",
+    name: "오븐/냄비 예열",
+    duration: 10,
+    memo: "230℃ 예열",
+    detail: "냄비와 오븐을 함께 충분히 예열해요."
+  },
+  {
+    section: "🔥 굽기",
+    name: "쿠프 넣기",
+    duration: 5,
+    memo: "반죽 꺼내기 · 쿠프 넣기",
+    detail: "냉장 발효한 반죽을 꺼내 쿠프를 넣고 냄비에 옮겨요."
+  },
+  {
+    section: "🔥 굽기",
+    name: "뚜껑 닫고 굽기",
+    duration: 20,
+    memo: "230℃ 20분",
+    detail: "뚜껑을 닫고 수분을 유지하며 오븐스프링을 만들어줘요."
+  },
+  {
+    section: "🔥 굽기",
+    name: "뚜껑 열고 굽기",
+    duration: 15,
+    memo: "200℃ 10~15분",
+    detail: "뚜껑을 열고 색과 크러스트를 완성해요."
+  }
+];
 
     let timeline = [];
 
     const finishInput = document.getElementById("finishTime");
     const timelineList = document.getElementById("timelineList");
 
-    function formatTime(date) {
-      return date.toLocaleString("ko-KR", {
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
-      });
-    }
+   function formatTime(date) {
+  return date.toLocaleString("ko-KR", {
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
+}
 
     function subtractMinutes(date, minutes) {
       return new Date(date.getTime() - minutes * 60000);
@@ -518,7 +623,10 @@
           <input type="checkbox" ${step.checked ? "checked" : ""} />
           <div class="${step.checked ? "done" : ""}">
             <div class="step-time">${formatTime(step.startTime)}</div>
-            <div class="step-name">${step.name}</div>
+            <div class="step-name">
+            ${step.name}
+            <button type="button" class="info-btn" onclick="alert('${step.detail}')">ⓘ</button>
+            </div>
             <div class="step-memo">
               ${step.actualDoneTime ? `실제 완료: ${formatTime(step.actualDoneTime)} · ` : ""}
               ${step.memo}
