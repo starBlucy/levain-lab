@@ -615,10 +615,13 @@
     }
 
     function generateTimeline() {
-      const finishTime = new Date(finishInput.value);
+      const finishDate = finishDateInput.value;
+      const finishHour = finishHourInput.value;
+      
+      const finishTime = new Date(`${finishDate}T${finishHour}`);
 
-      if (isNaN(finishTime)) {
-        alert("빵 완성 시간을 먼저 입력해 주세요.");
+      if (isNaN(finishTime.getTime())) {
+        alert("빵 완성 날짜와 시간을 먼저 입력해 주세요.");
         return;
       }
 
