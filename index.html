@@ -367,7 +367,7 @@
       </p>
 
       <label for="finishTime">빵 완성 시간</label>
-      <input id="finishTime" type="datetime-local" />
+      <input id="finishTime" type="datetime-local" step="1800" />
 
       <button class="primary-btn" type="button" onclick="generateTimeline()">타임라인 만들기</button>
 
@@ -705,7 +705,6 @@ function renderCurrentStep() {
         item.className = "step";
 
         item.innerHTML = `
-          <input type="checkbox" ${step.checked ? "checked" : ""} />
           <div class="${step.checked ? "done" : ""}">
             <div class="step-time">${formatTime(step.startTime)}</div>
             <div class="step-name">
@@ -718,12 +717,6 @@ function renderCurrentStep() {
             </div>
           </div>
         `;
-
-        item.querySelector("input").addEventListener("change", () => {
-          if (!step.checked) {
-            recalculateFrom(index);
-          }
-        });
 
         timelineList.appendChild(item);
       });
