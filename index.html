@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🍞 스타터 비율 계산기</title>
+  <title>🍞 Levain Lab</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -26,7 +24,7 @@
 
     .card {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       background: rgba(255, 250, 243, 0.94);
       border: 1px solid rgba(120, 82, 45, 0.14);
       border-radius: 28px;
@@ -53,11 +51,37 @@
     }
 
     .subtitle {
-      margin: 0 0 26px;
+      margin: 0 0 22px;
       color: #7a6757;
       font-size: 15px;
       line-height: 1.6;
     }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 12px;
+      background: #ead7c1;
+      color: #5a3c25;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: #7a4f2f;
+      color: #fffaf3;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
     label {
       display: block;
@@ -71,7 +95,7 @@
       border: 1px solid #dcc8b2;
       background: #fff;
       border-radius: 16px;
-      padding: 14px 14px;
+      padding: 14px;
       font-size: 18px;
       color: #3b3028;
       outline: none;
@@ -113,13 +137,19 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #dec4a8;
-    }
+    button:hover { background: #dec4a8; }
 
-    button.active {
+    button.active,
+    .primary-btn {
       background: #7a4f2f;
       color: #fffaf3;
+    }
+
+    .primary-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+      font-size: 16px;
     }
 
     .results {
@@ -139,14 +169,8 @@
       font-size: 17px;
     }
 
-    .result-item:first-child {
-      padding-top: 0;
-    }
-
-    .result-item:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
+    .result-item:first-child { padding-top: 0; }
+    .result-item:last-child { border-bottom: 0; padding-bottom: 0; }
 
     .result-item strong {
       font-size: 26px;
@@ -161,6 +185,47 @@
       line-height: 1.55;
     }
 
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 6px;
+      font-weight: 900;
+      color: #6f4423;
+    }
+
+    .step {
+      display: flex;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(90, 65, 38, 0.13);
+    }
+
+    .step input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    .step-time {
+      font-weight: 900;
+      color: #6f4423;
+    }
+
+    .step-name {
+      margin-top: 2px;
+      font-weight: 800;
+    }
+
+    .step-memo {
+      margin-top: 3px;
+      font-size: 13px;
+      color: #7a6757;
+      line-height: 1.4;
+    }
+
+    .done {
+      opacity: 0.55;
+      text-decoration: line-through;
+    }
+
     @media (max-width: 430px) {
       body {
         padding: 16px;
@@ -172,92 +237,115 @@
         border-radius: 24px;
       }
 
-      h1 {
-        font-size: 28px;
-      }
-
-      .ratio-row {
-        gap: 8px;
-      }
-
-      input {
-        font-size: 16px;
-        padding: 12px;
-      }
-
-      .result-item strong {
-        font-size: 23px;
-      }
+      h1 { font-size: 28px; }
+      input { font-size: 16px; padding: 12px; }
+      .result-item strong { font-size: 23px; }
     }
   </style>
 </head>
 
 <body>
   <main class="card">
-    <div class="badge">스타터 비율 계산기🥖</div>
+    <div class="badge">스타터 & 베이킹 도구 🥖</div>
 
     <h1>🍞 Levain Lab</h1>
     <p class="subtitle">
-      원하는 총량과 비율을 넣으면 스타터, 밀가루, 물의 양을 자동으로 계산해요 :)
+      르방을 계산하고, 통밀 사워도우 일정을 따라가요 :)
     </p>
 
-    <label for="total">만들고 싶은 총량(g)</label>
-    <input id="total" type="number" min="0" step="1" value="100" />
-
-    <label>비율 <span style="color:#7a6757; font-weight:600;">스타터 : 밀가루 : 물</span></label>
-
-    <div class="ratio-row">
-      <div class="ratio-field">
-        <span>스타터</span>
-        <input id="starterRatio" type="number" min="0" step="0.1" value="2" />
-      </div>
-
-      <div class="ratio-field">
-        <span>밀가루</span>
-        <input id="flourRatio" type="number" min="0" step="0.1" value="1" />
-      </div>
-
-      <div class="ratio-field">
-        <span>물</span>
-        <input id="waterRatio" type="number" min="0" step="0.1" value="1" />
-      </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="feeding">피딩 계산기</button>
+      <button class="tab-btn" data-tab="timeline">베이킹 타임라인</button>
     </div>
 
-    <div class="preset-buttons" aria-label="자주 쓰는 비율">
-      <button type="button" onclick="setRatio(1,1,1, this)">1:1:1</button>
-      <button type="button" onclick="setRatio(1,2,2, this)">1:2:2</button>
-      <button type="button" onclick="setRatio(1,5,5, this)">1:5:5</button>
-      <button type="button" onclick="setRatio(2,1,1, this)" class="active">2:1:1</button>
-    </div>
+    <section id="feeding" class="tab-content active">
+      <label for="total">만들고 싶은 총량(g)</label>
+      <input id="total" type="number" min="0" step="1" value="100" />
 
-    <section class="results" aria-live="polite">
-      <div class="result-item">
-        <span>스타터</span>
-        <strong id="starterResult">40g</strong>
+      <label>비율 <span style="color:#7a6757; font-weight:600;">스타터 : 밀가루 : 물</span></label>
+
+      <div class="ratio-row">
+        <div class="ratio-field">
+          <span>스타터</span>
+          <input id="starterRatio" type="number" min="0" step="0.1" value="2" />
+        </div>
+
+        <div class="ratio-field">
+          <span>밀가루</span>
+          <input id="flourRatio" type="number" min="0" step="0.1" value="1" />
+        </div>
+
+        <div class="ratio-field">
+          <span>물</span>
+          <input id="waterRatio" type="number" min="0" step="0.1" value="1" />
+        </div>
       </div>
 
-      <div class="result-item">
-        <span>밀가루</span>
-        <strong id="flourResult">20g</strong>
+      <div class="preset-buttons" aria-label="자주 쓰는 비율">
+        <button type="button" onclick="setRatio(1,1,1, this)">1:1:1</button>
+        <button type="button" onclick="setRatio(1,2,2, this)">1:2:2</button>
+        <button type="button" onclick="setRatio(1,5,5, this)">1:5:5</button>
+        <button type="button" onclick="setRatio(2,1,1, this)" class="active">2:1:1</button>
       </div>
 
-      <div class="result-item">
-        <span>물</span>
-        <strong id="waterResult">20g</strong>
-      </div>
+      <section class="results" aria-live="polite">
+        <div class="result-item">
+          <span>스타터</span>
+          <strong id="starterResult">40g</strong>
+        </div>
+        <div class="result-item">
+          <span>밀가루</span>
+          <strong id="flourResult">20g</strong>
+        </div>
+        <div class="result-item">
+          <span>물</span>
+          <strong id="waterResult">20g</strong>
+        </div>
+      </section>
+
+      <p class="note" id="note">
+        예: 총량 80g, 비율 2:1:1이면 스타터 40g, 밀가루 20g, 물 20g입니다.
+      </p>
     </section>
 
-    <p class="note" id="note">
-      예: 총량 80g, 비율 2:1:1이면 스타터 40g, 밀가루 20g, 물 20g입니다.
-    </p>
+    <section id="timeline" class="tab-content">
+      <h2 style="margin:0 0 8px;">🥖 통밀 사워도우 타임라인</h2>
+      <p class="note" style="margin-bottom:18px;">
+        빵 완성 시간을 입력하면 르방 준비부터 베이킹까지 역산해요.
+        각 단계를 체크하면 실제 완료 시간을 기준으로 이후 일정이 자동 조정됩니다.
+      </p>
 
-    <p class="note" id="note">
-  Happy Baking! 🥖
-    </p>
-    
+      <label for="finishTime">빵 완성 시간</label>
+      <input id="finishTime" type="datetime-local" />
+
+      <button class="primary-btn" type="button" onclick="generateTimeline()">타임라인 만들기</button>
+
+      <div id="timelineList"></div>
+
+      <p class="note">
+        ※ 베이킹 완료 시간 기준입니다. 빵은 충분히 식힌 후 자르면 더 좋아요.
+      </p>
+    </section>
+
+    <p class="note">Happy Baking! 🥖</p>
   </main>
 
   <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.tab;
+
+        tabButtons.forEach(btn => btn.classList.remove("active"));
+        tabContents.forEach(content => content.classList.remove("active"));
+
+        button.classList.add("active");
+        document.getElementById(target).classList.add("active");
+      });
+    });
+
     const totalInput = document.getElementById("total");
     const starterRatioInput = document.getElementById("starterRatio");
     const flourRatioInput = document.getElementById("flourRatio");
@@ -268,7 +356,7 @@
     const waterResult = document.getElementById("waterResult");
     const note = document.getElementById("note");
 
-    const buttons = document.querySelectorAll("button");
+    const ratioButtons = document.querySelectorAll(".preset-buttons button");
 
     function formatGram(value) {
       const rounded = Math.round(value * 10) / 10;
@@ -308,7 +396,7 @@
       flourRatioInput.value = flour;
       waterRatioInput.value = water;
 
-      buttons.forEach(button => button.classList.remove("active"));
+      ratioButtons.forEach(button => button.classList.remove("active"));
       clickedButton.classList.add("active");
 
       calculate();
@@ -316,14 +404,156 @@
 
     [totalInput, starterRatioInput, flourRatioInput, waterRatioInput].forEach(input => {
       input.addEventListener("input", () => {
-        buttons.forEach(button => button.classList.remove("active"));
+        ratioButtons.forEach(button => button.classList.remove("active"));
         calculate();
       });
     });
 
     calculate();
+
+    const recipe = [
+      { section: "🧪 르방", name: "르방 준비", duration: 360, memo: "예상 6시간" },
+
+      { section: "🥣 반죽", name: "오토리즈", duration: 40, memo: "재료 섞기 후 40분 휴지" },
+      { section: "🥣 반죽", name: "스트레치 앤 폴딩", duration: 40, memo: "다음 단계까지 40분" },
+      { section: "🥣 반죽", name: "라미네이션", duration: 40, memo: "다음 단계까지 40분" },
+      { section: "🥣 반죽", name: "코일 폴딩 #1", duration: 40, memo: "다음 단계까지 40분" },
+      { section: "🥣 반죽", name: "코일 폴딩 #2", duration: 40, memo: "다음 단계까지 40분" },
+
+      { section: "🧺 성형", name: "사전 성형", duration: 10, memo: "작업 시간 약 10분" },
+      { section: "🧺 성형", name: "벤치 레스트", duration: 20, memo: "20분 휴지" },
+      { section: "🧺 성형", name: "최종 성형", duration: 10, memo: "반느통에 넣기" },
+
+      { section: "❄️ 숙성", name: "저온숙성", duration: 960, memo: "냉장 16시간" },
+
+      { section: "🔥 굽기", name: "오븐/냄비 예열", duration: 10, memo: "230℃ 예열" },
+      { section: "🔥 굽기", name: "베이킹", duration: 35, memo: "230℃ 20분 + 200℃ 10~15분" }
+    ];
+
+    let timeline = [];
+
+    const finishInput = document.getElementById("finishTime");
+    const timelineList = document.getElementById("timelineList");
+
+    function formatTime(date) {
+      return date.toLocaleString("ko-KR", {
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+    }
+
+    function subtractMinutes(date, minutes) {
+      return new Date(date.getTime() - minutes * 60000);
+    }
+
+    function addMinutes(date, minutes) {
+      return new Date(date.getTime() + minutes * 60000);
+    }
+
+    function generateTimeline() {
+      const finishTime = new Date(finishInput.value);
+
+      if (isNaN(finishTime)) {
+        alert("빵 완성 시간을 먼저 입력해 주세요.");
+        return;
+      }
+
+      let current = new Date(finishTime);
+
+      timeline = [...recipe].reverse().map(step => {
+        current = subtractMinutes(current, step.duration);
+
+        return {
+          ...step,
+          startTime: new Date(current),
+          checked: false,
+          actualDoneTime: null
+        };
+      }).reverse();
+
+      saveTimeline();
+      renderTimeline();
+    }
+
+    function recalculateFrom(index) {
+      const actualDone = new Date();
+
+      timeline[index].checked = true;
+      timeline[index].actualDoneTime = actualDone;
+
+      let nextStart = actualDone;
+
+      for (let i = index + 1; i < timeline.length; i++) {
+        timeline[i].startTime = new Date(nextStart);
+        timeline[i].checked = false;
+        timeline[i].actualDoneTime = null;
+        nextStart = addMinutes(nextStart, timeline[i].duration);
+      }
+
+      saveTimeline();
+      renderTimeline();
+    }
+
+    function renderTimeline() {
+      timelineList.innerHTML = "";
+
+      let currentSection = "";
+
+      timeline.forEach((step, index) => {
+        if (step.section !== currentSection) {
+          currentSection = step.section;
+          const title = document.createElement("div");
+          title.className = "section-title";
+          title.textContent = currentSection;
+          timelineList.appendChild(title);
+        }
+
+        const item = document.createElement("label");
+        item.className = "step";
+
+        item.innerHTML = `
+          <input type="checkbox" ${step.checked ? "checked" : ""} />
+          <div class="${step.checked ? "done" : ""}">
+            <div class="step-time">${formatTime(step.startTime)}</div>
+            <div class="step-name">${step.name}</div>
+            <div class="step-memo">
+              ${step.actualDoneTime ? `실제 완료: ${formatTime(step.actualDoneTime)} · ` : ""}
+              ${step.memo}
+            </div>
+          </div>
+        `;
+
+        item.querySelector("input").addEventListener("change", () => {
+          if (!step.checked) {
+            recalculateFrom(index);
+          }
+        });
+
+        timelineList.appendChild(item);
+      });
+    }
+
+    function saveTimeline() {
+      localStorage.setItem("wholeWheatSourdoughTimeline", JSON.stringify(timeline));
+    }
+
+    function loadTimeline() {
+      const saved = localStorage.getItem("wholeWheatSourdoughTimeline");
+      if (!saved) return;
+
+      timeline = JSON.parse(saved).map(step => ({
+        ...step,
+        startTime: new Date(step.startTime),
+        actualDoneTime: step.actualDoneTime ? new Date(step.actualDoneTime) : null
+      }));
+
+      renderTimeline();
+    }
+
+    loadTimeline();
   </script>
 </body>
 </html>
-
-
