@@ -253,6 +253,45 @@
   background: #ead7c1;
   color: #6f4423;
 }
+    .current-card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 18px;
+  border-radius: 20px;
+  background: #f1e3d1;
+  border: 2px solid #d6b38b;
+}
+
+.current-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #7a4f2f;
+  margin-bottom: 10px;
+}
+
+.current-name {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.current-memo {
+  color: #7a6757;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.complete-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 0;
+  background: #7a4f2f;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
   </style>
 </head>
 
@@ -332,6 +371,7 @@
 
       <button class="primary-btn" type="button" onclick="generateTimeline()">타임라인 만들기</button>
 
+      <div id="currentStepCard"></div>
       <div id="timelineList"></div>
 
       <p class="note">
@@ -539,6 +579,7 @@
 
     const finishInput = document.getElementById("finishTime");
     const timelineList = document.getElementById("timelineList");
+    const currentStepCard = document.getElementById("currentStepCard");
 
    function formatTime(date) {
   return date.toLocaleString("ko-KR", {
@@ -580,10 +621,51 @@
       }).reverse();
 
       saveTimeline();
+      
+function renderCurrentStep() {
+  const currentStep = timeline.find(step => !step.checked);
+
+  if (!currentStep) {
+    currentStepCard.innerHTML = `
+      <div class="current-card">
+        <div class="current-name">🎉 베이킹 완료!</div>
+        <div class="current-memo">
+          오늘도 맛있는 빵을 완성했어요.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const index = timeline.indexOf(currentStep);
+
+  currentStepCard.innerHTML = `
+    <div class="current-card">
+      <div class="current-title">▶ 지금 할 일</div>
+
+      <div class="current-name">
+        ${currentStep.name}
+      </div>
+
+      <div class="current-memo">
+        예정 시간: ${formatTime(currentStep.startTime)}<br>
+        ${currentStep.memo}
+      </div>
+
+      <button
+        class="complete-btn"
+        onclick="recalculateFrom(${index})"
+      >
+        완료
+      </button>
+    </div>
+  `;
+}
       renderTimeline();
     }
 
     function recalculateFrom(index) {
+      
       const actualDone = new Date();
 
       timeline[index].checked = true;
@@ -601,8 +683,12 @@
       saveTimeline();
       renderTimeline();
     }
+    
 
     function renderTimeline() {
+      
+      renderCurrentStep();
+      
       timelineList.innerHTML = "";
 
       let currentSection = "";
